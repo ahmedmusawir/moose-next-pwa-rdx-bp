@@ -3,18 +3,25 @@ import Document, { Head, Main, NextScript } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 
 export default class MyDocument extends Document {
-	static getInitialProps({ renderPage }) {
+	static async getInitialProps(ctx) {
 		const sheet = new ServerStyleSheet();
-		const page = renderPage(App => props =>
-			sheet.collectStyles(<App {...props} />)
-		);
-		const styleTags = sheet.getStyleElement();
-		return { ...page, styleTags };
+
+		const originalRenderPage = ctx.renderPage;
+		ctx.renderPage = () =>
+			originalRenderPage({
+				enhanceApp: App => props => sheet.collectStyles(<App {...props} />)
+			});
+
+		const initialProps = await Document.getInitialProps(ctx);
+		return {
+			...initialProps,
+			styles: [...initialProps.styles, ...sheet.getStyleElement()]
+		};
 	}
 
 	render() {
 		return (
-			<html>
+			<html style={{ background: '#EEE', color: '#444' }}>
 				<Head>
 					<meta
 						name="viewport"
@@ -27,7 +34,6 @@ export default class MyDocument extends Document {
 						rel="stylesheet"
 						href="../static/scss/custom-bootstrap-4.1.3.css"
 					/>
-					{this.props.styleTags}
 				</Head>
 				<body>
 					<Main />

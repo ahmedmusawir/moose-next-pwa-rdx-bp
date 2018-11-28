@@ -29,11 +29,14 @@ export default withRedux(initStore, {
 			const { Component, pageProps, store } = this.props;
 			return (
 				<Container>
-					<Provider store={store}>
-						<ThemeProvider theme={DeepCastTheme}>
+					<ThemeProvider theme={DeepCastTheme}>
+						<Head>
+							<title>Todo App</title>
+						</Head>
+						<Provider store={store}>
 							<Component {...pageProps} />
-						</ThemeProvider>
-					</Provider>
+						</Provider>
+					</ThemeProvider>
 					<GlobalStyle />
 				</Container>
 			);

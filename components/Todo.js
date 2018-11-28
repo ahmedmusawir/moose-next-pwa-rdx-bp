@@ -1,26 +1,28 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React from 'react';
+import { connect } from 'react-redux';
+import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 
-import { addTodo, removeTodo } from '../actions/todo'
-import TodoItem from './TodoItem'
+import { addTodo, removeTodo } from 'store/actions/todo';
+import TodoItem from './TodoItem';
 
 class Todo extends React.Component {
 	state = {
 		text: ''
-	}
+	};
 
 	addTodos = e => {
-		e.preventDefault()
+		e.preventDefault();
 
-		this.props.addTodo(this.state.text)
-		this.setState({ text: '' })
-	}
+		this.props.addTodo(this.state.text);
+		this.setState({ text: '' });
+	};
 
 	removeTodo = todo => {
-		this.props.removeTodo(todo)
-	}
+		this.props.removeTodo(todo);
+	};
 
 	render() {
+		console.log(this.state);
 		return (
 			<div className="mdl-card mdl-shadow--2dp">
 				<form onSubmit={this.addTodos}>
@@ -29,7 +31,7 @@ class Todo extends React.Component {
 							type="text"
 							value={this.state.text}
 							onChange={e => this.setState({ text: e.target.value })}
-							className="mdl-textfield__input"
+							className="form-control"
 							id="input"
 						/>
 						<label className="mdl-textfield__label" htmlFor="input">
@@ -43,41 +45,25 @@ class Todo extends React.Component {
 						<TodoItem key={i} todo={todo} remove={this.removeTodo} />
 					))}
 				</ul>
-				<style>{`
-						form {
-							background: #fff;
-							padding: 10px;
-						}
-						ul {
-							min-height: 100px;
-							margin: 0;
-							padding: 0;
-							text-align: left;
-							list-style: none;
-						}
-						ul li {
-							padding: 10px;
-							background: #FFF;
-							border-bottom: 1px solid #EEE;
-						}
-						ul li:nth-child(2n) {
-							background: #EEF6FF;
-						}
-						ul li:last-child {
-							border-bottom: none;
-						}
-						.mdl-card {
-							margin: auto;
-							transition: all .3s;
-							transform: translateY(100px);
-						}
-					`}</style>
 			</div>
-		)
+		);
 	}
 }
 
 export default connect(
 	({ todos }) => ({ todos }),
 	{ addTodo, removeTodo }
-)(Todo)
+)(Todo);
+
+// const mapStateToProps = state => {
+// 	// console.log(state);
+// 	return {
+// 		todos: state.todos
+// 	};
+// };
+// const mapDispatchToProps = { addTodo, removeTodo };
+
+// export default connect(
+// 	mapStateToProps,
+// 	mapDispatchToProps
+// )(Todo);

@@ -14,7 +14,7 @@ export default class MyDocument extends Document {
 
 	render() {
 		return (
-			<html>
+			<html style={{ background: '#EEE', color: '#444' }}>
 				<Head>
 					<meta
 						name="viewport"
@@ -32,6 +32,7 @@ export default class MyDocument extends Document {
 				<body>
 					<Main />
 					<NextScript />
+					{/* <script defer src="https://code.getmdl.io/1.3.0/material.min.js" /> */}
 				</body>
 			</html>
 		);
